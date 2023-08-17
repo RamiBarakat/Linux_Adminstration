@@ -1,0 +1,18 @@
+#!/bin/bash
+
+
+
+startTime=$(date +%s)
+echo $startTime
+
+count=0
+currentTime=$(date +%s)
+while [ $(( ${currentTime} - ${startTime} )) -lt 120 ]; do
+
+        count=$((count+1))
+        now=$((currentTime-startTime))
+        echo "ok ${count} ${now}"
+        currentTime=$(date +%s)
+
+
+done
