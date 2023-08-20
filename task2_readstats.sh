@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-
+cd /tmp/task2
 timestamp=$(date "+%T")
 
 
