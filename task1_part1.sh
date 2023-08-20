@@ -1,12 +1,12 @@
 #!/bin/bash
-#
+# 1GB/ 512bytes ~= 2100000 sectors
 
 fdisk /dev/sdb <<EOF
 n
 p
 1
 
-
+2100000
 t
 8e
 w
