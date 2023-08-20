@@ -9,6 +9,7 @@ echo "0 * * * * /tmp/task2/readstats.sh" >> /tmp/mycron
 echo "1 * * * * /tmp/task2/calcavgs.sh" >> /tmp/mycron
 
 crontab /tmp/mycron
+rm -f /tmp/mycron
 
 cat << EOF > /var/www/html/index.html
 <!DOCTYPE html>
