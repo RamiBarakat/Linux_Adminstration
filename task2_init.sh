@@ -1,5 +1,8 @@
 #!/bin/bash
 
+systemctl start httpd
+systemctl enable httpd
+
 mkdir -p /var/www/html/web
 mkdir -p /tmp/task2
 
