@@ -28,3 +28,4 @@ https://www.gnu.org/software/bash/manual/bash.html#Here-Documents
 
 https://unix.stackexchange.com/questions/478443/how-shall-i-understand-the-output-of-free
 
+https://www.tecmint.com/linux-yum-package-management-with-yum-utils/
