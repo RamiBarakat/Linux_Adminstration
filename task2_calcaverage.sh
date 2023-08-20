@@ -1,5 +1,5 @@
 #!/bin/bash
-
+cd /tmp/task2
 
 cpuTmp=$(find . -name 'cpu*')
 cpuFile=$( echo $cpuTmp | cut -d '/' -f 2)
@@ -47,10 +47,13 @@ diskLines=$(( diskLines - 1  ))
 avaAvgDisk=$(($availablen / $diskLines))
 usedAvgDisk=$(($usedn / $diskLines))
 
+timestamp=$(echo $diskFile | cut -d '_' -f 2 | cut -d '.' -f 1)
+echo $timestamp
+
 ##echo $avaAvgDisk
 ##echo $usedAvgDisk
 file="$(find . -name "disk_*")"
-cat << EOF > web/disk.html
+cat << EOF > var/www/html/web/disk.html
     <html>
     <head>
         <title>
@@ -61,10 +64,10 @@ cat << EOF > web/disk.html
     <body>
 
          <h1>Memory Statistics</h1>
-         <pre>"$(cat $file)"</pre>
+         <pre>$(cat $file)</pre>
          <p>Average Occupied Disk Space = $usedAvgDisk MB </p>
          <p>Average Free Disk Space = $avaAvgDisk MB</p>
-
+	 <p>Happened at ($timestamp)</p>
     </body>
     </html>
 EOF
@@ -105,7 +108,7 @@ avgCpuUtil=$(awk -v usedCpu="$usedCpu" -v cpuLines="$cpuLines" 'BEGIN { print us
 ##echo $avgCpuUtil
 file="$(find . -name "cpu_*")"
 
-cat << EOF > web/cpu.html
+cat << EOF > var/www/html/web/cpu.html
     <html>
     <head>
         <title>
@@ -116,9 +119,9 @@ cat << EOF > web/cpu.html
     <body>
    	
 	 <h1>$title</h1>
-	 <pre>"$(cat $file)"</pre> 
+	 <pre>$(cat $file)</pre> 
 	 <p>the total CPU utilization = $avgCpuUtil </p>
-   
+   	 <p>Happened at ($timestamp)</p>
     </body>
     </html>
 EOF
@@ -166,7 +169,7 @@ echo $avgFreeUtil
 
 
 file="$(find . -name "memory_*")"
-cat << EOF > web/memory.html
+cat << EOF > var/www/html/web/memory.html
     <html>
     <head>
         <title>
@@ -177,10 +180,10 @@ cat << EOF > web/memory.html
     <body>
 
          <h1>Memory Statistics</h1>
-         <pre>"$(cat $file)"</pre>
+         <pre>$(cat $file)</pre>
          <p>Occupied Memory Utilization % = $avgUsedUtil% </p>
 	 <p>Free Memory Utilization % = $avgFreeUtil%</p>
-
+	 <p>Happened at ($timestamp)</p>
     </body>
     </html>
 EOF
