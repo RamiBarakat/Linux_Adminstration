@@ -1,0 +1,50 @@
+#!/bin/bash
+
+sudo yum install -y tmux
+sudo yum install -y httpd
+sudo yum install -y mysql-server
+
+sudo systemctl start httpd
+sudo systemctl enable httpd
+sudo systemctl start mysql
+sudo systemctl enable mysql
+
+mkdir -p /tmp/part6
+cd /tmp/part6
+
+wget https://repo.zabbix.com/zabbix/4.4/rhel/7/x86_64/zabbix-agent-4.4.9-1.el7.x86_64.rpm
+wget https://repo.zabbix.com/zabbix/4.4/rhel/7/x86_64/zabbix-agent2-4.4.9-1.el7.x86_64.rpm
+wget https://repo.zabbix.com/zabbix/4.4/rhel/7/x86_64/zabbix-get-4.4.9-1.el7.x86_64.rpm
+wget https://repo.zabbix.com/zabbix/4.4/rhel/7/x86_64/zabbix-web-4.4.9-1.el7.noarch.rpm
+wget https://repo.zabbix.com/zabbix/4.4/rhel/7/x86_64/zabbix-java-gateway-4.4.9-1.el7.x86_64.rpm
+wget https://repo.zabbix.com/zabbix/4.4/rhel/7/x86_64/zabbix-js-4.4.9-1.el7.x86_64.rpm
+wget https://repo.zabbix.com/zabbix/4.4/rhel/7/x86_64/zabbix-nginx-conf-4.4.9-1.el7.noarch.rpm
+wget https://repo.zabbix.com/zabbix/4.4/rhel/7/x86_64/zabbix-server-mysql-4.4.9-1.el7.x86_64.rpm
+wget https://repo.zabbix.com/zabbix/4.4/rhel/7/x86_64/zabbix-proxy-pgsql-4.4.9-1.el7.x86_64.rpm
+wget https://repo.zabbix.com/zabbix/4.4/rhel/7/x86_64/zabbix-proxy-sqlite3-4.4.9-1.el7.x86_64.rpm
+wget https://repo.zabbix.com/zabbix/4.4/rhel/7/x86_64/zabbix-release-4.4-1.el7.noarch.rpm
+wget https://repo.zabbix.com/zabbix/4.4/rhel/7/x86_64/zabbix-sender-4.4.9-1.el7.x86_64.rpm
+wget https://repo.zabbix.com/zabbix/4.4/rhel/7/x86_64/zabbix-server-pgsql-4.4.9-1.el7.x86_64.rpm
+wget https://repo.zabbix.com/zabbix/4.4/rhel/7/x86_64/zabbix-web-mysql-4.4.9-1.el7.noarch.rpm
+wget https://repo.zabbix.com/zabbix/4.4/rhel/7/x86_64/zabbix-web-pgsql-4.4.9-1.el7.noarch.rpm
+
+
+sudo yum install createrepo
+
+sudo mkdir /var/www/html/zabbix-local
+sudo mv /tmp/part6/*.rpm /var/www/html/zabbix-local
+
+sudo echo "[zabbix-local]" >> /etc/yum.repos.d/zabbix-local.repo
+sudo echo "name=zabbix-local" >> /etc/yum.repos.d/zabbix-local.repo
+sudo echo "baseurl=file:///var/www/html/zabbix-local/" >> /etc/yum.repos.d/zabbix-local.repo
+sudo echo "gpgcheck=0" >> /etc/yum.repos.d/zabbix-local.repo
+sudo echo "enabled=1" >> /etc/yum.repos.d/zabbix-local.repo
+
+yum clean all
+yum install --disablerepo=* --enablerepo="zabbix-local"  zabbix-release zabbix-agent2 zabbix zabbix-get zabbix-js zabbix-server zabbix-sender zabbix-web-mysql
+
+
+
+
+
+
