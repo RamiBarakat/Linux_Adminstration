@@ -20,4 +20,6 @@ useradd user3
 usermod -a -G admin user2
 usermod -a -G admin user3
 
-echo "user3 ALL=(ALL) NOPASSWD:ALL >> /etc/sudoers
+#wheel is a root like group
+usermod user3 -a -G wheel
+#echo "user3 ALL=(ALL) NOPASSWD:ALL >> /etc/sudoers
