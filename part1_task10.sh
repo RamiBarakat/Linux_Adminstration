@@ -1,23 +1,34 @@
 #!/bin/bash
 
 sudo yum install -y mariadb
+sudo yum install -y mysqld
 
-systemctl start mysql
-systemctl enable mysql
+systemctl start mariadb
+systemctl enable mariadb
 
 sudo iptables -A INPUT -p tcp --dport 3306 -j ACCEPT
+
+cat << EOF >> /etc/mycnf.d
+[mysqld]
+skip-networking=0
+skip-bind-address
+bind-address = 0.0.0.0
+EOF
+
+sudo systemctl restart mariadb
+
 
 mysql -u root << EOF
 drop database if exists studentdb;
 create database studentdb;
 drop user if exists user@localhost;
-create user 'user'@'localhost' identified by 'password';
-grant SELECT, ALTER, DROP, INSERT, DELETE, UPDATE ON studentdb.* TO 'user'@'localhost';
-GRANT SHOW databases ON *.* TO 'user'@'localhost';
-flush privileges;
+create user 'user4'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL ON studentdb.* to 'user4'@'10.0.2.5' IDENTIFIED BY 'password' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
 exit
 EOF
 
+<<"COMMENT"
 mysql -u user -ppassword<< EOF
 use studentdb;
 create table students(
@@ -42,3 +53,4 @@ insert into students(first_name,last_name,program,grad_year,student_number) valu
 ('Mary', 'Chen', 'computer science', '2020', '110-010');
 exit
 EOF
+COMMENT
