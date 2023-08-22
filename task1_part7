@@ -27,11 +27,13 @@ sudo yum install createrepo
 sudo mkdir /var/www/html/zabbix-local
 sudo mv /tmp/part6/*.rpm /var/www/html/zabbix-local
 
-sudo echo "[zabbix-local]" >> /etc/yum.repos.d/zabbix-local.repo
-sudo echo "name=zabbix-local" >> /etc/yum.repos.d/zabbix-local.repo
-sudo echo "baseurl=file:///var/www/html/zabbix-local/" >> /etc/yum.repos.d/zabbix-local.repo
-sudo echo "gpgcheck=0" >> /etc/yum.repos.d/zabbix-local.repo
-sudo echo "enabled=1" >> /etc/yum.repos.d/zabbix-local.repo
+cat << EOF >> /etc/yum.repos.d/zabbix-local.repo
+[zabbix-local]
+name=zabbix-local
+baseurl=file:///var/www/html/zabbix-local/
+gpgcheck=0
+enabled=1
+EOF
 
 yum clean all
 yum install --disablerepo=* --enablerepo="zabbix-local"  zabbix-release zabbix-agent2 zabbix zabbix-get zabbix-js zabbix-server zabbix-sender zabbix-web-mysql
