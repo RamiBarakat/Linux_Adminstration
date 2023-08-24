@@ -13,3 +13,4 @@ ssh-keygen -f "/home/$user/.ssh/id_rsa"
 ssh-copy-id -i "/home/$user/.ssh/id_rsa.pub" "$remote_user@$remote_ip"
 
 ssh "$remoteuser@$remote_ip"
+#ssh -i "/home/$user/.ssh/id_rsa" "$remote_user@$remote_ip"
